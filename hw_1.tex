@@ -1,0 +1,788 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+
+\usepackage{amsmath, amsthm, amssymb, mathrsfs, graphicx}
+\usepackage{tcolorbox, hyperref, enumerate}
+
+\input{hw-preamble}
+
+\title{\vspace{-2em}\textbf{第一次作业}}
+\me{林凡琪}{211240042}{}{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\section*{Problem 1}
+\begin{problem}
+证明:
+$$
+  Pr(\bigcup_{i=1}^n A_i) \leq \sum_{i=1}^n Pr(A_i)
+$$
+\end{problem}
+
+\begin{proof}
+  概率空间的定义：非负性和可加性。
+
+  首先，证明一个性质$$P(A\cup B) \leq P(A) + P(B)$$(事件的并概率上界)
+
+  设两个相交的事件，即A和B。
+
+  可知$A \cup B = A\cup (A^c \cap B), B=(A\cap B)\cup (A^c \cap B)$
+
+  由可加性可知：
+
+  $$P(A\ cup B) = P(A)+P(A^c \cap B)$$
+  $$P(B) = P(A\cap B) + P(A^c\cap B)$$
+
+  $$\Rightarrow P(A \cup B) = P(A)+P(B) - P(A \cap B)$$
+
+  由非负性可知, $$P(A \cup B) \leq P(A)+P(B)$$
+
+  至此证成事件的并概率上界性质;
+
+  可以将此性质用于$A_1$和$A_2\cup A_3 \cup ... \cup A_n$
+
+  $$Pr(A_1) \cup Pr(A_2\cup A_3 \cup ... \cup A_n) \leq Pr(A_1) + Pr(A_2\cup A_3 \cup ... \cup A_n)$$
+
+  再用此方法计算$Pr(A_2)$和$Pr(A_3\cup A_4 \cup ... \cup A_n)$;
+
+  得到$$Pr(A_2) \cup Pr(A_3\cup A_4 \cup ... \cup A_n) \leq Pr(A_2) + Pr(A_3\cup A_4 \cup ... \cup A_n)$$
+
+  以此类推,可得
+
+  $$\Rightarrow Pr(A_1 \cup A_2 \cup .. \cup A_n) \leq Pr(A_1) + Pr(A_2) + ... + Pr(A_n)$$
+  即
+  $$Pr(\bigcup_{i=1}^n A_i) \leq \sum_{i=1}^n Pr(A_i)
+  $$
+\end{proof}
+
+
+\begin{problem}
+[Principle of Inclusion and Exclusion (PIE)] Prove that
+$\mathbf{Pr}\left( \bigcup_{i=1}^n A_i\right) = \sum_{\emptyset \neq S \subseteq [n]} (-1)^{|S|-1} \mathbf{Pr}\left( \bigcap_{i \in S} A_i \right) $
+, where$ [n]=\{1,2,\ldots,n\} $.
+\end{problem}
+
+\begin{proof}
+
+  将用数学归纳法证明.
+
+  Consider a single set $A_1$. Then the principle of inclusion-exclusion states that $|A_1| = |A_1| + | A_1 | - | A_1 \cap A_1 | = | A_1 |$, which is trivially true. Now consider a collection of exactly two sets $A$ and $B$. Then $|A \cup B| = |A| + |B| - |A \cap B|$. Assume that the principle of inclusion-exclusion holds for unions of $n$ terms. By grouping terms, and simplifying some of them, the principle can be deduced for unions of $n+1$ terms⁴.
+
+  Therefore, $\mathbf{Pr}\left( \bigcup_{i=1}^n A_i\right) = \sum_{\emptyset \neq S \subseteq [n]} (-1)^{|S|-1} \mathbf{Pr}\left( \bigcap_{i \in S} A_i \right) $, where $[n]=\{1,2,\ldots,n\}$.
+
+
+\end{proof}
+
+%\begin{note}
+% 无论 \textbackslash itemlize 还是\textbackslash enumerate 中的 \textbackslash item 都支持一个可选参数以临时更换列表标志（即无序列表前的点或有序列表前的 ``1.''）。
+%  此外，使用 \textbackslash enumerate 的可选参数也可以改变有序列表的图标。当然，这些列表是可以嵌套的。
+%\end{note}
+
+\begin{problem}
+For positive integers $\displaystyle{ m\ge n }$, prove that the probability of a uniform random function to be surjective (满射) is $\displaystyle{ \sum_{k=1}^n(-1)^{n-k}{n\choose k}\left(\frac{k}{n}\right)^m }$
+
+%\includegraphics[width=1\textwidth]{figs/formula}
+\end{problem}
+
+\begin{proof}
+  首先，我们可以计算出$f$不是满射的概率，即，$\exists j\in[n]$，s.t. $f(i)\neq j$对$\forall i\in[m]$成立。这样的函数有$(n-1)m$种，因为每个$f(i)$都有$n-1$种选择。所以，不是满射的概率是$\frac{(n-1)m}{n^m}$。
+
+  又根据容斥原理。如果$\exists j_1,j_2\in[n]$，s.t. $f(i)\neq j_1,j_2$对$\forall i\in[m]$成立，那么这样的函数有$(n-2)^m$种。但是，不能直接从不是满射的概率中减去这部分，否则可能会造成重复计算。
+  %例如，如果存在三个元素$j_1,j_2,j_3\in[n]$，使得$f(i)\neq j_1,j_2,j_3$对所有$i\in[m]$成立，那么这样的函数被计算了三次（分别对应$j_1,j_2;j_1,j_3;j_2,j_3$），但实际上只应该计算一次。
+
+  所以用容斥原理避免重复计算。
+
+  $$ P(f \text{ 不是满射}) = \sum_{k=1}^n (-1)^{k+1} {n \choose k} \left(\frac{n-k}{n}\right)^m $$
+  %其中${n \choose k}$表示从$n$个元素中选取$k$个元素的组合数。
+
+  从而可以得出：
+
+  $$ P(f \text{ 是满射}) = 1 - P(f \text{ 不是满射}) = \sum_{k=0}^n (-1)^k {n \choose k} \left(\frac{n-k}{n}\right)^m $$
+
+  （当$k=0$时，${n \choose 0}=1$且$\left(\frac{n}{n}\right)^m=1$.）
+
+  综上证毕.
+
+\end{proof}
+
+%\begin{note}
+%  当你不认识某些数学符号的时候，你可以使用 \href{http://detexify.kirelabs.org/classify.html}{Detexify} 或 \href{https://mathpix.com/}{mathpix} 等工具进行识别。
+% 你也可以使用 \href{https://latex.codecogs.com/legacy/eqneditor/editor.php}{Online LaTeX Equation Editor} 或者你编辑器中的符号表进行输入。
+%\end{note}
+
+\begin{problem}
+Given an arbitrary integer $q \geq 2$, calculate the probability of a uniform random $n$-tuples $ p = (p_1,p_2,\ldots,p_n)\in[q]^n $satisfying the following property: $p_n \neq p_1$ and $p_i \neq p_{i+1}$ for all $1 \leq i \leq n-1$. You are required to apply PIE to calculate this probability. Note that this is the probability of a uniform random $q$-coloring of an $n$-cycle to be proper.
+%请用 \LaTeX 输出下图中的表格。
+%\includegraphics[width=.3\textwidth]{figs/table}
+\end{problem}
+
+\begin{proof}
+  首先计算出满足题目中的性质的$p$的总数。
+
+  对于$p_1$有$q$种选择；对于$p_2,\ldots,p_{n-1}$每次有$q-1$种选择（不能和前一个元素相同）；对于$p_n$有$q-2$种选择（不能和前一个元素或者$p_1$相同）。
+
+  所以，总数是$q(q-1)^{n-2}(q-2)$。
+
+  然后计算出不满足题目中的性质的$p$的总数。
+
+  如果$\exists i\in[n]$，s.t. $p_i=p_{i+1}$（这里约定$p_{n+1}=p_1$），那么这样的$n$元组有$(q-1)^{n-1}$种. 因为只有$i,i+1$两个位置确定了颜色，其他位置都有$q-1$种选择。
+  %但是，这样会重复计算一些情况。例如，如果存在两个$i,j\in[n]$（不妨设$i<j<i+2<n$），使得$p_i=p_{i+1}$且$p_j=p_{j+1}$，那么这样的$n$元组被计算了两次（分别对应$i,j;j,i+2=n-i,n-i+2=n-j,n-j+2=i,i+2=j,j+2=i,i+n=j,j+n=i,i+n=j,j+n=i,i+n=j,j+n=i,i+n=j,j+n=i,i+n=j,j+n=i,i+n=j,j+n=i,i+j=n-i,n-i+j=n-j,n-j+i=n-i,n-i+j=n-j,n-j+i=n-i,n-i+j=n-j,n-j+i=n-i,n-i+j=n-j,n-j+i=n-i,n-i+j=n-j,n-j+i=0,0+j=0,0+i=0,0+j=0,0+i=0,0+j=0,0+i=0,0+j=0,0+i=0,0+j=$
+
+
+  为了避免重复计算，使用容斥原理：
+
+  $$ P(p \text{ 不满足性质}) = \sum_{k=1}^n (-1)^{k+1} {n \choose k} (q-1)^{n-k} $$
+  %其中${n \choose k}$表示从$n$个元素中选取$k$个元素的组合数。
+  %最后，我们可以用一减法来得到$p$满足性质的概率：
+
+  从而可以得出
+
+  $$ P(p \text{ 满足性质}) = 1 - P(p \text{ 不满足性质}) = \frac{q(q-1)^{n-2}(q-2) - \sum_{k=1}^n (-1)^{k+1} {n \choose k} (q-1){n-k}}{qn} $$
+
+  （当$k>n/2$时，${n \choose k}= {n \choose n-k}$。）
+
+  综上证毕
+
+
+\end{proof}
+
+\begin{problem}
+Prove that $\sum_{i=1}^n \mathbf{Pr}(A_i) - \sum_{1 \le i < j \le n} \mathbf{Pr}(A_i \cap A_j)\le \mathbf{Pr}\left(\bigcup_{i=1}^n A_i\right) \le \sum_{i=1}^n \mathbf{Pr} \left( A_i\right) - \sum_{i=2}^n \mathbf{Pr}(A_1 \cap A_i).$(Hint: This is sometimes called Kounias' inequality which is weaker than the Bonferroni's inequality. You can try using Venn diagram to understand these inequalities.)
+\end{problem}
+
+\begin{proof}
+  数学归纳法。
+
+  当$n=2$
+
+  $$ \mathbf{Pr}(A_1 \cup A_2) \le \mathbf{Pr}(A_1) + \mathbf{Pr}(A_2) - 2\mathbf{Pr}(A_1 \cap A_2) $$
+
+  可以用概率的加法规则来证明：
+  $$ \begin{aligned}
+      \mathbf{Pr}(A_1 \cup A_2)
+       & = \mathbf{Pr}(A_1) + \mathbf{Pr}(A_2) - \mathbf{Pr}(A_1 \cap A_2)                                                                         \\
+       & \le \mathbf{Pr}(A_1) + \mathbf{Pr}(A_2) - 0.5\mathbf{Pr}(A_1 \cap A_2) - 0.5\mathbf{Pr}(A_1 \cap A_2)                                     \\
+       & = 0.5(\mathbf{Pr}(A_1)+\mathbf{Pr}(A_2)) + 0.5(\mathbf{Pr}(A_1)+\mathbf{Pr}(A_2)- 2\mathbf{Pr}(A_1 \cap A_2))                             \\
+       & = 0.5(\min({\mathbf{Pr}(A_i)}{i=1}^n)) + 0.5(\min_k (\sum{i=1}^n \mathbf { Pr } ( A_i ) -\sum_{i:i\not=k}\mathrm { Pr } ( A_i\cap A_k ))) \\
+       & = (\min({\frac{\sum_{i=1}^n P(A_i)}n,\frac{\sum_{i=1}^n P(A_i)}n- P(A_i)}{i=1}^n)) + (\min_k (\sum{i=1}^n P(A_i)-P(A_k)-P(A_i\cap A_k)))  \\ &=\min_k (\sum_{i=1}^n P(A_i)-P(A_k)-P(A_i\cap A_k))\end{aligned} $$
+
+  其中($\frac{\sum_{i=1}^nP(A_i)}n-P(A_k)\geq P(A_k)$)
+
+  假设对于任意的$n-1$个事件$B_j$，都有
+
+  $$ P (\bigcup _{j = 1} ^{n- 1} B_j ) ≤ \min_k { \sum_{j = 1}^{n- 1} P (B_j ) − \sum_{j \neq k} P(B_j \cap B_k ) } $$
+
+  那么，对于任意的$n$个事件$C_j$，我们可以将它们分成两组：$C_n$和$\bigcup_{j = 0}^{n- 0 } C_j $。根据归纳假设和$n=2$的情况，我们有
+
+  $$ P (\bigcup _{j = 0} ^{n}C_j ) ≤ \min_k { \sum_{j = 0}^{n} P (C_j ) − \sum_ {j \neq k} P (C_j \cap C_k ) } $$
+
+  得证.
+\end{proof}
+\newpage
+\section*{Problem 2}
+A gambler plays a fair gambling game: At each round, he flips a fair coin, earns $1$ point if it's HEADs, and loses $1$ point if otherwise.
+\begin{problem}
+
+[ Symmetric 1D random walk (I)] \\
+Let $A_i$ be the event that the gambler earns 0 points after playing $ i $ rounds of the game, that is, the number of times the coin lands on heads is equal to the number of times it lands on tails. Compute $\sum_{i=1}^\infty \mathbf{Pr} (A_i)$. (Hint: You may use Stirling’s approximation to estimate.$\mathbf{Pr} (A_i)$ and derive that$\sum_{i=1}^\infty \mathbf{Pr} (A_i) = +\infty$ .)
+\end{problem}
+
+\begin{solution}
+  i轮抛硬币后，i/2轮是正面，i/2轮是反面。
+
+  概率为
+  $\mathbf{Pr} (A_i) = \frac{\binom{i}{i/2}}{2^i}$
+
+  使用斯特林近似公式，得到 $n! \approx \sqrt{2\pi n}(\frac{n}{e})^n$
+  即
+  $$\mathbf{Pr} (A_i) \approx \frac{1}{\sqrt{\pi i}}$$
+  从而可得
+  $$\sum_{i=1}^\infty \mathbf{Pr} (A_i) \approx \sum_{i=1}^\infty \frac{1}{\sqrt{\pi i}}$$
+  这个求和是发散的.
+
+  所以得到：
+
+  $$\sum_{i=1}^\infty \mathbf{Pr} (A_i) = +\infty$$
+\end{solution}
+
+\begin{problem}
+[Symmetric 1D random walk (II)] Suppose that the game ends upon that the gambler loses all his $m$
+points. Let $A_i$
+be the event that the game ends within
+rounds. Compute$\displaystyle{ \sum_{i=1}^{+\infty} \mathbf{Pr}(\overline{B_i}) }$. (Hint: You may first consider $m=1$
+case. Let $\displaystyle{C_i}$
+be the event that the game ends at the
+-th round. (i) Prove that $\displaystyle{ \sum_{i=1}^{+\infty} \mathbf{Pr}(\overline{B_i}) = \sum_{i=1}^{+\infty} (i-1) \mathbf{Pr}(C_i) }$
+.
+
+(ii) Compute $\displaystyle{ \mathbf{Pr}(C_i) }$
+, which is a special case of the ballot problem. (iii) Finally, use Stirling's approximation to derive that $\displaystyle{ \sum_{i=1}^{+\infty} \mathbf{Pr}(\overline{B_i}) = +\infty }$
+.)
+\end{problem}
+
+\begin{solution}
+  (i) $\displaystyle{ \mathbf{Pr}(\overline{B_i}) }$的意思是，在第i轮都没死的概率，即在第i轮之后死掉的概率。
+
+  % $\mathbf{Pr}(B_i)$的意思是，在前i轮就死掉（可能是任意的$k<i$的第k轮死掉）
+  %$$\mathbf{Pr}(B_i)=\sum_{j=1}^{i}\mathbf{Pr}(C_j)$$
+  $$\mathbf{Pr}(\overline{B_i}) = \sum_{j=i+1}^{+\infty}\mathbf{Pr}(C_j)$$
+  $$\begin{aligned}
+      \sum_{i=1}^{+\infty} \mathbf{Pr}(\overline{B_i}) & = \sum_{i=1}^{+\infty} \sum_{j=i+1}^{+\infty}\mathbf{Pr}(C_j) \\
+                                                       & =\sum_{i=1}^{+\infty} (i-1) \mathbf{Pr}(C_i)
+    \end{aligned}$$
+
+  （ii）因为最后一步是定了一定要输的，所以就是在前i-1步选出x步输的，使得$x-(i-1-x)=m-1$
+
+  $$\Rightarrow x=\frac{m+i}{2} -1$$
+
+  $$
+    \begin{aligned}
+      C^x_{i-1} & = C^{\frac{m+i}{2} -1}_{i-1}                       \\
+                & =\frac{m!}{(\frac{m+i}{2} -1)!(\frac{m-i}{2} +1)!}
+    \end{aligned}
+  $$
+  $$
+    \begin{aligned}
+      \mathbf{Pr}(C_i) & = \frac{C^x_{i-1}}{2^{i-1}}                                         \\
+                       & = \frac{\frac{m!}{(\frac{m+i}{2} -1)!(\frac{m-i}{2} +1)!}}{2^{i-1}}
+    \end{aligned}
+  $$
+
+  (iii)
+  斯特林近似：
+
+  $$n! \approx \sqrt{2\pi n}\left(\frac{n}{e}\right)^n$$
+
+  得到：
+
+  $$
+    \begin{aligned}
+      \frac{\frac{m!}{(\frac{m+i}{2} -1)!(\frac{m-i}{2} +1)!}}{2^{i-1}}
+       & \approx \frac{\sqrt{2\pi m}\left(\frac{m}{e}\right)^m}{\sqrt{4\pi^2 (\frac{m+i}{2} -1)(\frac{m-i}{2} +1)}\left(\frac{\frac{m+i}{2} -1}{e}\right)^{\frac{m+i}{2} -1}\left(\frac{\frac{m-i}{2} +1}{e}\right)^{\frac{m-i}{2} +1}} \cdot 2^{i-1} \\
+       & \approx \frac{\sqrt{m}\left({m}\right)^m}{\sqrt{2\pi (\frac{m+i}{2} -1)(\frac{m-i}{2} +1)}\left({\frac{m+i}{2} -1}\right)^{\frac{m+i}{2} -1}\left({\frac{m-i}{2} +1}\right)^{\frac{m-i}{2} +1}} \cdot 2^{i-1}                                \\
+       & \approx \frac{\sqrt{m}\left({m}\right)^m}{\sqrt{\pi}\left({\frac{m+i}{2} -1}\right)^{\frac{m+i-1}{2}}\left({\frac{m-i}{2} +1}\right)^{\frac{m-i+3}{2}}} \cdot 2^{i-1}                                                                        \\
+       & \approx \frac{\sqrt{m}\left({m}\right)^m}{\sqrt{\pi}(m+i-2)^{\frac{m+i-1}{2}}(m-i+2)^{\frac{m-i+3}{2}}} \cdot 2^{i-1-m}
+    \end{aligned}$$
+
+  $$
+    \begin{aligned}
+      \sum_{i=1}^{+\infty} \mathbf{Pr}(\overline{B_i}) & = \sum_{i=1}^{+\infty} \sum_{j=i+1}^{+\infty}\mathbf{Pr}(C_j)                                                                              \\
+                                                       & =\sum_{i=1}^{+\infty} (i-1) \mathbf{Pr}(C_i)                                                                                               \\
+                                                       & = \sum_{i=1}^{+\infty}(i-1)\frac{\sqrt{m}\left({m}\right)^m}{\sqrt{\pi}(m+i-2)^{\frac{m+i-1}{2}}(m-i+2)^{\frac{m-i+3}{2}}} \cdot 2^{i-1-m} \\
+                                                       & = \infty
+    \end{aligned}$$
+
+\end{solution}
+\begin{problem}
+[Symmetric 1D random walk (III)] Suppose that the game ends upon that the gambler loses all his $m$
+points or earns another $m$
+points (i.e., the number of points he possesses reaches $2m$
+). Let $C$ be the event that the game ends within $n$
+rounds. Compute $\displaystyle{ \mathbf{Pr}(C) }$. (Hint: A variant of the problem is sometimes called the ballot problem, and there is a famous trick known as André's reflection principle.)
+\end{problem}
+
+\begin{solution}
+
+  %把随机游走的路径在某个点做镜像反射，然后计算反射路径和原始路径相交的概率。
+
+  设$X_i$为第$i$轮游戏后赌徒拥有的点数-m，即$X_i = m + i - 2Y_i$，其中$Y_i$为第$i$轮游戏后赌徒赢得的次数。
+
+  $\mathbf{Pr}(C)$则为在$n$轮内，$\exists i \leq n$使得$X_i = 0$或者$X_i = 2m - 2m = 0$的概率。
+
+  根据安德烈的反射原理，这个概率等于在$n+1-m \leq i \leq n+m-1 $之间存在某个$i $使得 $X_i = -m $或者 $X_i = m $ （即的$|X_i| = m $概率）。
+
+  可得 $$\mathbf{Pr}(C) = \sum_{k=0}^{n} {n \choose k} (\frac{1}{2})^n I_{\{|k-m|\text{ is odd and } |k-m| \leq n\}}$$
+  (其中$I_{\{\cdot\}}$是指示函数，当括号内条件成立时为1，否则为0。)
+
+
+\end{solution}
+\newpage
+\section*{Problem 3}
+
+\begin{problem}
+
+\end{problem}
+\begin{proof}
+  反证法。
+
+  假设存在这样一个概率空间，那么由于 $N$ 是可数无穷集合，所以可以把它写成 $N = \{n_1, n_2, n_3, …\}$ 的形式，其中 $n_i \neq n_j$ 当 $i \neq j$。那么对于$\forall k \in N$，我们有
+  $$Pr (N) = Pr ({n_1} \cup {n_2} \cup {n_3} \cup …) = Pr ({n_1}) + Pr ({n_2}) + Pr ({n_3}) + …$$
+
+  根据归一化的定义，可知 $Pr (N) = 1$ 是必然事件，而且每个单点集合的概率相等，设为 $p > 0$，则上式可以化简为
+
+  $$1 = p + p + p + … = \infty \times p$$
+
+  因为无穷乘以正数不可能等于有限数，所以得到了矛盾，原假设不成立。
+
+  因此不存在这样一个均匀的概率空间。
+
+  得证.
+
+
+  （至于为什么同样的论证不能用来证明不存在一个均匀的概率空间 $([0, 1], F, Pr)$，使得对于任意的区间 $(l, r] \subseteq  [0, 1]$，都有 $(l, r] \in F$ 并且 $Pr ((l, r]) = r - l$。
+  因为 $[0, 1]$ 是不可数无穷集合，不能像 $N$ 那样写成可数并集的形式。而且在实数轴上其实可以定义一个均匀分布（勒贝格测度）。）
+\end{proof}
+\begin{problem}
+
+\end{problem}
+
+\begin{proof}
+  一个$\sigma-field$是一个非空的子集集合，满足以下三个条件：\\
+  1.包含全集和空集;\\
+  2.对补集封闭\\
+  3.对可数并和可数交封闭\\
+
+  首先，证明包含S的所有$\sigma-field$的交集也是一个$\sigma-field$。
+
+  由于每个$\sigma-field$都包含全集和空集，所以它们的交集也包含全集和空集。
+
+  由于每个$\sigma-field$都对补集封闭，所以如果A属于它们的交集，那么A的补也属于每个$\sigma-field$，从而属于它们的交集。
+
+  由于每个$\sigma-field$都对可数并和可数交封闭，所以如果$A_1, A_2, …$属于它们的交集，那么$A_1\cup A_2\cup …$和$A_1\cap A_2\cap …$也属于每个$\sigma-field$，从而属于它们的交集。
+
+  然后，证明任何包含S的其他$\sigma-field$都包含这个交集。\\
+  （反证法）假设存在一个包含S且不等于这个交集F0 的 $\sigma-field$ F ，那么必然存在一个元素 $A \in F$ ，但 $A \notin F0$ 。由于 $A \in F$ ，且 $F$ 是 $\sigma-field$ ，那么 $A^c \in F$ 。但由于 $A \notin F0$ ，那么 $A^c \notin F0$ 。这就说明了 $F$ 不是最小的 $\sigma-field$ ，因为它还有多余的元素。这与假设矛盾，所以不存在这样的 $\sigma-field$ 。
+
+  综上得证.
+\end{proof}
+\begin{problem}
+[ Limit of events] Let $( A_i)_i \in N$ be a sequence of events. Define $\lim \sup A_n = \bigcap_{n = 1}^{+ \infty} \bigcup_{k = n}^{+ \infty} A_k$ and $\lim \inf A_n = \bigcup_{n = 1}^{+ \infty} \bigcap_{k = n}^ {+ \infty} A_k$. Prove that
+
+- $\lim \inf A_n, \lim \sup A_n \in \mathcal{F}$ and $\liminf A_n \subseteq \limsup A_n$\\
+- $\lim \inf A_n=\left\{\omega \in \Omega \mid \omega \in A_n\right.$ for all but finitely many values of $\left.n\right\}$;\\
+- $\lim \sup A_n=\left\{\omega \in \Omega \mid \omega \in A_n \text { for infinite many values of } n\right\}_{\text {; }}$\\
+- If $A=\liminf A_n=\lim \sup A_n$, then $\operatorname{Pr}\left(A_n\right) \rightarrow \operatorname{Pr}(A)$ as $n \rightarrow \infty$;\\
+- Furthermore, if the limit $A=\lim \inf A_n=\lim \sup A_n$ exists and for every $n$, the two events $\bigcup_{k=n}^{+\infty} A_k$ and $\bigcap_{k=n}^{+\infty} A_k$ are independent, then $\operatorname{Pr}(A)$ is either 0 or 1 .
+
+\end{problem}
+
+\begin{proof}
+
+
+  %要证明的第一个等式是
+
+  %  $$\mathbf{Pr} (\lim \sup A_n) + \mathbf{Pr} (\lim \inf A^c_n) \leq 1$$
+
+  % 这可以通过以下步骤推导：
+
+  %$$\begin{aligned}
+  %   \mathbf{Pr} (\lim \sup A_n) + \mathbf{Pr} (\lim \inf A^c_n)
+  %   & = \mathbf{Pr} (\bigcap_i B i) + \mathbf{Pr} (\bigcup_i C^c_i) \\
+  %  & \leq Pr (B_1) + Pr (C^c_1)                                    \\
+  %  & = 1 − \mathbf{Pr} (C_1) + \mathbf{Pr} (C^c_1)                 \\
+  %  & = 1 − [\mathbf{Pr} (C_1) − \mathbf{Pr} (C^c_1)]               \\
+  %  & \leq 1
+  %\end{aligned}$$
+  %其中第二个不等式用到了 Boole 不等式（或者叫做并集界定理），即对于任意的事件序列 D i，有 \mathbf{Pr} (\bigcup i D i) ≤ ∑ i \mathbf{Pr}(D_i)
+  % 最后一个不等式用到了概率的非负性，即对于任意的事件 E，有\mathbf{Pr}(E) ≥ 0
+
+
+
+  1.要证明 $\lim \inf A_n, \lim \sup A_n \in \mathcal{F}$ 和 $\liminf A_n \subseteq \limsup A_n$，利用集合运算的性质和 $\sigma$-代数的定义。
+
+  具体来说，用德摩根定律把交集和并集互换，然后用 $\sigma$-代数对可数并和可数交的封闭性来证明。
+
+  %对于 $\liminf A_n$，有
+  %$$ \begin{aligned} \lim \inf A_n &= \bigcup_{n=1}^{+\infty}\bigcap_{k=n}^{+\infty}A_k\ &= (\bigcap_{n=1}^{+\infty}\bigcup_{k=n}^{+\infty}A_kc)c\ &\in (\mathcal{F})^c\ &= \mathcal{F} \end{aligned} $$
+  %同理，可以证明 $\limsup A_n \in \mathcal{F}$。
+  $$ \begin{aligned} \liminf A_n & = \bigcup_{n=1}^{+\infty}\bigcap_{k=n}^{+\infty}A_k \\
+                \limsup A_n & = \bigcap_{n=1}^{+\infty}\bigcup_{k=n}^{+\infty}A_k \\
+    \end{aligned} $$
+
+  对于 $\liminf A_n$ 的证明： $$ \begin{aligned} &\text {Since } A_1,A_2,… \in \mathcal{F}\\ &\Rightarrow \forall n, k >= n, A_k \in \mathcal{F}\\ &\Rightarrow \forall n, k >= n, \bigcap_{k=n}^{+\infty}A_k in \mathcal{F}\\ &\Rightarrow \forall n, \bigcup_{n=1}^{+\infty}(\bigcap_{k=n}^{+\infty}A_k) \in \mathcal{F}\\ &\Rightarrow \liminf A_n \in \mathcal{F}\\ \end{aligned} $$
+
+  同理，可以证明 $\limsup A_n \in \mathcal{F}$
+
+  对于 $\liminf A_n \subseteq \limsup A_n$ 的证明：
+
+  $$\forall \omega \in \liminf A_n$$\\
+  $\Leftrightarrow \omega \in \bigcup_{n=1}^{+\infty}(\bigcap_{k=n}^{+\infty})A_k  $         \\
+  $\Leftrightarrow \exists n_0 s.t. \forall n >= n_0, \omega \in A_k $                        \\
+  $ \forall n_0, \exists n >= n_0$ s.t. $\omega \in \bigcup_{k=n}^{+\infty}A_k$ \\
+  $\Leftrightarrow \omega \in \bigcap_{n=1}^{+\infty}(\bigcup_{k=n}^{+\infty})A_k     $      \\
+  $\Leftrightarrow \omega \in \limsup A_n                             $                      \\
+  $ \Rightarrow \liminf A_n \subseteq \limsup A_n$\\
+
+
+  2.要证明 $\lim \inf A_n=\left \{\omega \in \Omega | \omega \in A_n \right \}.$ for all but finitely many values of $\left \{n\right \}$;
+  $\lim \sup A_n=\left \{\omega \in \Omega | \omega \in A_n \text{for infinite many values of } n\right \}$;
+
+  用反证法和集合包含关系来推导。
+
+  假设存在一个元素 $\omega$ 属于左边的集合而不属于右边的集合，然后找到矛盾。
+
+  对于 $\lim \inf A_n$：
+
+  $$ \begin{aligned}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         & \omega \in \lim \inf A_n                                                      \\
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        & \Leftrightarrow  \omega \in \bigcup{n=1}^{+\infty}\bigcap_{k=n}^{+\infty}A_k  \\
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        & \Leftrightarrow \omega \in \bigcup_{n=1}{+\infty}\bigcap_{k=n}{+\infty}A_k    \\
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       %\Leftrightarrow & \exists n_0, s.t. \forall n \geq n_0, \omega \in A_n                       \\ 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        & \Leftrightarrow  \exists n_0, s.t. |{n: n > n_0, \omega\notin A_n}| < +\infty \\
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       %\Leftrightarrow for all but finitely many values of n, \omega \in A_n      \\
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        & \Leftrightarrow  |{n: \omega\notin A_n}| < +\infty\end{aligned} $$
+
+  而对于 $\limsup A_n$：
+  $$ \begin{aligned} &\omega\notin \limsup A_n \\ \Leftrightarrow & \omega\notin (\bigcap_{n=1}^{+\infty}\bigcup_{k=n}^{+\infty}A_k) \\ \Leftrightarrow & (\bigcap_{n=1}^{+\infty}\bigcup_{k=n}^{+\infty}A_k)^c = (\bigcup_{n=1}^{+\infty}\bigcap_{k=n}^{+\infty}A_k^c) \\ \Leftrightarrow & |{n: \omega\notin A_n^c = \omega \in A_n}| < +\infty \end{aligned} $$ 这就说明了如果 $\omega \in \lim \inf A_n $并且$\omega \notin \limsup A_n$ 就会产生矛盾。
+
+  %对于 $\limsup A_n=\left \{\omega \in \Omega \mid \omega \in A_n \text{for infinite many values of} n\right \}$ 的证明类似，只需把并集和交集互换即可。
+
+  3.要证明如果 $A=\liminf A_n=\limsup A_n$, then $\operatorname{Pr}\left(A_n\right) \rightarrow Pr(A)$ as $n \rightarrow +\infty$;
+
+  利用单调收敛定理
+
+  构造两个单调的事件序列 $B_n = \bigcap_{k=n}^{+\infty}A_k$ 和 $C_n = \bigcup_{k=n}^{+ \infty}A_k$，应用夹逼原则来得到结果。
+
+  对于任意 $n$, 都有： $$ B_1=B_2=B_3=\cdots=A=\cdots=C_3=C_2=C_1 $$ 并且有： $$ B_m=B_m-B_{m+1}=B_m-A_m-A_m-B_m=A_m-B_m=A_m-A=A-A_m $$ 所以有： $$ Pr(B_m)=Pr(A)-Pr(A-A_m) $$ 同理有： $$ Pr(C_m)=Pr(A)+Pr(A-C_m) $$
+
+  $$ A=\liminf A_n=\limsup A_n$$
+  $$\Rightarrow \mathbf{Pr}(A)=\mathbf{Pr}(\liminf A_n)=\mathbf{Pr}(\limsup A_n) $$
+  $$\Rightarrow \mathbf{Pr}(A) \leq \liminf \mathbf{Pr}(A_n) \leq \limsup \mathbf{Pr}(A_n) \leq \mathbf{Pr}(A) $$
+  $$\Rightarrow \liminf \mathbf{Pr}(A_n)=\limsup \mathbf{Pr}(A_n)=\mathbf{Pr}(A) $$
+  $$\Rightarrow \exists L s.t. \forall \epsilon > 0, \exists N s.t. \forall n >= N, |\mathbf{Pr}(A_n)-L| < \epsilon $$
+  $$\Rightarrow L=\mathbf{Pr}(A), and \mathbf{Pr}(A_n)->\mathbf{Pr}(A) \text{ as } n\rightarrow +\infty $$
+
+  4.如果存在极限事件A，则当 $B_i$ 和 $C_i$ 相互独立时，有$\mathbf{Pr}(A)=0$ 或者 $\mathbf{Pr}(A)=1$
+
+  令$B_i$表示$\bigcup_{k = i}^{+ \infty} A_k$，$C_i$ 表示 $\bigcap_{k = i}^{+ \infty} A_k$。那么我们有
+  $$\lim \sup A_n = \bigcap_i B_i$$
+  和 $$\lim \inf A_n = \bigcup_i C_i$$
+
+  由于存在极限事件A，则有
+
+  $$\lim \sup A_n=\lim \inf A_n=A$$
+
+  所以对于任意的正整数i，都有
+
+  $$B_i=C_i=A$$
+
+  因此，
+
+  $$\mathbf{Pr}(A)=\mathbf{Pr}(B_i)=\mathbf{Pr}(C_i)$$
+
+  又由于 $B_i$ 和 $C_i$ 相互独立，则有
+
+  $$\mathbf{Pr}(B_i\cap C_i)=\mathbf{Pr}(B_i)*\mathbf{Pr}(C_i)$$
+
+  即
+
+  $$\mathbf{Pr}(A\cap A)=\mathbf{Pr}(A)*\mathbf{Pr}(A)$$
+
+  化简得
+
+  $$[\mathbf{Pr}(A)]^2=\mathbf{Pr}(A)$$
+
+  这意味着只有两种可能：要么
+
+  $$[\mathbf{Pr}(A)]^2=0 即 \mathbf{Pr}(A)=0$$要么
+
+  $$[\mathbf{Pr}(A)]^2=\mathbf{Pr}(A)=1$$。
+
+  得证。
+\end{proof}
+
+\newpage
+\section*{Problem 4 (Conditional probability)}
+\begin{problem}
+[Conditional version of the total probability] Let
+$ C_1,\cdots, C_n $ be disjoint events that form a partition of the sample space. Let $A$
+and $B$ be events such that$\textbf{Pr}(B\cap C_i)> 0 $
+for all
+. Show that $ \textbf{Pr}(A|B) = \sum_{i = 1}^n \textbf{Pr}(C_i|B)\cdot \textbf{Pr}(A|B\cap C_i) $
+
+
+\end{problem}
+
+\begin{proof}
+  $$\textbf{Pr}(A|B) = \frac{\textbf{Pr}(A\cap B)}{\textbf{Pr}(B)}$$
+
+  根据the law of total probability,
+
+  $$\textbf{Pr}(A\cap B) = \sum_{i = 1}^n \textbf{Pr}(A\cap B\cap C_i) = \sum_{i = 1}^n \textbf{Pr}(C_i)\cdot \textbf{Pr}(A\cap B|C_i)$$
+
+  $$\textbf{Pr}(B) = \sum_{i = 1}^n \textbf{Pr}(B\cap C_i) = \sum_{i = 1}^n \textbf{Pr}(C_i)\cdot \textbf{Pr}(B|C_i)$$
+
+  %对任意事件 $A$ 有 $$ A = A \cap S = A \cap (\bigcup_{i=1}^n C_i) = \bigcup_{i=1}^n (A \cap C_i) $$
+
+
+
+  %$$ \textbf{Pr}(A\cap C_i) = \textbf{Pr}(C_i)\cdot \textbf{Pr}(A|C_i) = \textbf{Pr}(B)\cdot \textbf{Pr}(C_i|B)\cdot \textbf{Pr}(A|B\cap C_i) $$
+
+  %最后，将上式代入 $\textbf{Pr}(A)$ 的表达式，并两边除以 $\textbf{Pr}(B)$ （假设 $\textbf{Pr}(B)>0$ ），就得到了所要证明的公式： $$ \textbf{Pr}(A|B) = \sum_{i=1}^n \textbf{Pr}(C_i|B)\cdot \textbf{Pr}(A|B\cap C_i) $$
+
+  定义$Pr_B := Pr(\cdot | B)$
+
+  $$Pr_c(A) = \sum _i P_B(A|C_i)P_B(C_i)$$
+
+  因为$(B\cap C_i) \cap (B\cap C_j) = \emptyset$ （$i\neq j$），所以
+  $$ \textbf{Pr}(B) = \sum_{i=1}^n \textbf{Pr}(B\cap C_i) $$
+
+  并且有$Pr_B(A|C_i)=Pr(A|C_i \cap B)$, 所以
+  $$Pr(A|B)=\sum _{i=1}^n Pr(C_i|B)\cdot Pr(A|B \cap C_i)$$
+\end{proof}
+\begin{problem}
+There are $n$
+urns of which the
+$r$-th contains $r-1$
+white balls and $n-r$
+black balls. You pick an urn uniformly at random (here, "uniformly" means that each urn has equal probability of being chosen) and remove two balls from that urn, uniformly at random without replacement (which means that each of the$\binom{n-1}{2}$
+pairs of balls are chosen to be removed with equal probability). Find the following probabilities:
+
+1.the second ball is black;
+
+2.the second ball is black, given that the first is black.
+\end{problem}
+\begin{solution}
+  令 $C_r$ 代表选中第 $r$ 个罐子，$B_1$ 和 $B_2$ 分别代表第一次和第二次抽到黑球。
+
+  易知 $$ \textbf{Pr}(C_r) = \frac{1}{n}, \quad r=1,\cdots,n $$
+
+  从第 $r$ 个罐子中第一次抽到黑球的概率为 $$ \textbf{Pr}(B_1|C_r) = \frac{n-r}{n-1}, \quad r=1,\cdots,n $$
+
+  在第一个已经抽出来黑球的情况下，从第 $r$ 个罐子中第二次依然抽到黑球的概率为 $$ \textbf{Pr}(B_2|B_1\cap C_r) = \frac{n-r-1}{n-2}, \quad r=1,\cdots,n-2 $$
+
+  从第 $r$ 个罐子中第一次抽到白球，第二次抽到黑球的概率为
+  $$\textbf{Pr}(B_2 |C_r\cap B_1^C) = \frac{n-r}{n-2}, \quad r=2,\cdots,n-1$$
+
+  %注意当 $r=n$ 时，$\textbf{Pr}(B_2|B_1\cap C_n)=0$ ，因为最后一个罐子只有一个白球。
+
+  1. 第二次抽到黑球的概率为
+  $$ \begin{aligned} \textbf{Pr}(B_2)
+       & = \sum_{r=1}^n \textbf{Pr}(C_r)\cdot [\textbf{Pr}(B_2\cap B_1|C_r) + \textbf{Pr}(B_2 \cap B_1^C|C_r)]                                                              \\
+       & = \sum^{n-2}_{r=1} \textbf{Pr}(C_r) \cdot \textbf{Pr}(B_2 \cap B_1| C_r) + \sum^{n-1}_{i=2}\textbf{Pr}(C_r)\cdot \textbf{Pr}(B_2 \cap B_1^C|C_r)                   \\
+       & = \sum_{r=1}^{n-2} \frac{1}{n}\cdot (\frac{n-r}{n-1})\cdot (\frac{n-r-1}{n-2})  +  \sum^{n-1}_{i=2} (\frac{1}{n})    \cdot (\frac{r-1}{n-1})\cdot(\frac{n-r}{n-2}) \\
+       & = \frac{n(n^2-3n+2)}{3n(n-1)(n-2)} + \frac{n(n^2-3n+2)}{6n(n-1)(n-2)}                                                                                              \\ &= \frac{n(n^2-3n+2)}{2n(n-1)(n-2)}\\
+       & =\frac{1}{2}
+    \end{aligned} $$
+
+  2. 已知第一个是黑球，第二次依然抽到黑球的概率为 $$ \begin{aligned} \textbf{Pr}(B_2\cap B_1) & = \sum_{r=1}^{n-2} \textbf{Pr}(C_r)\cdot \textbf{Pr}(B_2\cap B_1|C_r) \\ &=\sum_{r=1}^{n-2} \frac{1}{n}\cdot (\frac{n-r}{n-1})\cdot (\frac{n-r-1}{n-2})\\
+                                         & = \frac{n(n^2-3n+2)}{3n(n-1)(n-2)}                                    \\
+                                         & = \frac{1}{3}\end{aligned} $$
+\end{solution}
+\begin{problem}
+[Balls in urns (II)] Suppose that an urn contains $w$
+white balls and $b$
+black balls. The balls are drawn from the urn one by one, each time uniformly and independently at random, without replacement (which means we do not put the chosen ball back after each drawing). Find the probabilities of the events:
+
+1.the first white ball drawn is the$(k+1)$th ball;
+
+2.the last ball drawn is white.
+\end{problem}
+\begin{solution}
+  1. 第一个白球在第$k+1$次才掉出来，也就是说前$k$个全是黑球
+
+  当$k>b$,$\textbf{P} = 0$
+
+  当$k \leq b$:
+
+  $$
+    \begin{aligned}
+      \textbf{P} & = \frac{b\cdot (b-1) \cdot ... \cdot (b-k+1)}{(w+b) \cdot (w+b-1) \cdot ... \cdot (w+b-k+1)} \\
+                 & =\frac{b!(w+b-k)!}{(b-k)!(w+b)!}
+    \end{aligned}$$
+
+  2.最后一个掉出来的球是白色，根据对称性，每个球成为最后一个掉出来的球的概率是一样的。
+
+  所以$$\textbf{P} = \frac{w}{w+b}$$
+\end{solution}
+\begin{problem}
+There are $n$
+urns filled with black and white balls. Let $f_i$
+be the fraction of white balls in the $i$
+-th urn. In stage 1 an urn is chosen uniformly at random. In stage 2 a ball is drawn uniformly at random from the urn chosen in stage 1. Let $U_i$
+be the event that the $i$
+-th urn was chosen at stage 1. Let $W$
+be the event that a white ball is drawn at stage 2, and $B$
+be the event that a black ball is drawn at stage 2.
+1.Use Bayes's Law to express $\textbf{Pr}(U_i|W)$
+in terms of $f_1,...f_n$
+.
+
+2.Let's say there are three urns and urn 1 has 30 white and 10 black balls, urn 2 has 20 white and 20 black balls, and urn 3 has 10 white balls and 30 black balls. Compute $\textbf{Pr}(U_1|B)$,$\textbf{Pr}(U_2|B)$
+and $\textbf{Pr}(U_3|B)$
+.
+\end{problem}
+\begin{solution}
+  $$
+    \begin{aligned}
+      \textbf{Pr}(U_i|W) & =\frac{\textbf{Pr}(U_i)\textbf{Pr}(W|U_i)}{\textbf{Pr}(W|U_1)+\textbf{Pr}(W|U_2)+...+\textbf{Pr}(W|U_n)} \\
+                         & =\frac{f_i}{n\cdot(f_1+f_2+...+f_n)}
+    \end{aligned}
+  $$
+  令$g_i = 1-f_i$
+  $$
+    \textbf{Pr}(U_i|B) = \frac{g_i}{n\cdot(g_1+g_2+g_3)}=\frac{g_i}{9/2}$$
+  $$\textbf{Pr}(U_1|B) = \frac{1/4}{9/2} = \frac{1}{18}$$
+  $$\textbf{Pr}(U_2|B) = \frac{1/2}{9/2} = \frac{1}{9}$$
+  $$\textbf{Pr}(U_1|B) = \frac{3/4}{9/2} = \frac{1}{6}$$
+\end{solution}
+\section*{Problem 5 (Independence)}
+\begin{problem}
+[Limited independence]
+\end{problem}
+\begin{solution}
+  构造：
+
+  事件A：取到第一个的$X_i$的$i$为奇数，取完就放回
+
+  事件B：取到第二个的$X_j$的$j$为奇数，取完就放回
+
+  事件C：取到的$X_i$和$X_j$的$i+j$为奇数
+
+  首先证明两两独立：
+
+  A和B：
+
+  第一次取和第二次取互不影响。易知$P(A)=P(B)$
+
+  B和C：
+
+  $i+j$是否为奇数，和j是否为奇数无关。随机取出的i决定事件C是否成立。
+
+  A和C同理。
+
+  证明没有相互独立：
+
+  若事件A和事件B确定，则事件C确定；
+
+  若事件A/B和事件C确定，则事件B/A确定
+\end{solution}
+\begin{problem}
+[Product distribution]Suppose someone has observed the output of the $n$
+trials, and she told you that precisely $k$
+out of $n$
+trials succeeded for some $0<k<n$
+. Now you want to predict the output of the $(n+1)$
+-th trial while the parameter
+of the Bernoulli trial is unknown. One way to estimate $p$
+is to find such$ \hat{p}$
+that makes the observed outcomes most probable, namely you need to solve$ \arg \max_{\hat{p}\in(0,1)} \mathbf{Pr}_{\hat{p}} [k \text{ out of } n\text{ trials succeed}].$
+
+
+1.Estimate $p$
+by solving the above optimization problem.
+
+2.If someone tells you exactly which $k$
+trials succeed (in addition to just telling you the number of successful trials, which is $k$
+), would it help you to estimate
+more accurately? Why?
+\end{problem}
+\begin{solution}
+  %The optimization problem you need to solve is equivalent to finding the maximum likelihood estimate of $p$ given the observed data. The likelihood function is given by
+  1.
+  $$L(\hat{p}) = \mathbf{Pr}_{\hat{p}} [k \text{ out of } n\text{ trials succeed}] = \binom{n}{k} \hat{p}^k (1-\hat{p})^{n-k}$$
+
+  %To find the maximum of this function, we can take the derivative with respect to $\hat{p}$ and set it to zero:
+  对 $\hat{p}$ 求导并令其为零：
+
+  $$\frac{dL}{d\hat{p}} = \binom{n}{k} (k \hat{p}^{k-1} (1-\hat{p})^{n-k} - (n-k) \hat{p}^k (1-\hat{p})^{n-k-1}) = 0$$
+
+  得到
+
+  $$\frac{k}{\hat{p}} - \frac{n-k}{1-\hat{p}} = 0$$
+
+  得到
+
+  $$\hat{p} = \frac{k}{n}$$
+
+
+  2.
+  知道哪些 $k$ 次试验成功了并不会让我更准确地估计 $p$。因为试验的顺序不影响似然函数或其最大值。只有试验成功次数和试验总次数会影响。
+
+\end{solution}
+\section*{Problem 6}
+A CNF formula （合取范式）
+over $ \Phi $
+Boolean variables $n$
+is a conjunction ($\wedge$
+) of clauses (子句) $ \Phi=C_1\land C_2\land\cdots\land C_m $
+, where each clause $C_j=\ell_{j_1}\lor\ell_{j_2}\cdots\lor\ell_{j_k} $
+is a disjunction ($\vee $
+) of literals (文字), where a literal $l_r$
+is either a variable $x_i$
+or the negation $\ \bar{x}_i $
+of a variable. A CNF formula is satisfiable (可满足) if there is a truth assignment $\displaystyle{ x=(x_1,\cdots, x_n)\in \{\mathtt{true},\mathtt{false}\}^n }$
+to the variables such that $\displaystyle{ \Phi(x)=\mathtt{true} }$
+. A $k$
+-CNF formula is a CNF formula in which each clause contains exactly
+literals (without repetition).
+\begin{problem}
+[Satisfiability (I)] Let $\Phi$
+be a $k$-CNF with less than $2^k$
+clauses. Use the probabilistic method to show that $\Phi$
+must be satisfiable. You should be explicit about the probability space that is used.
+\end{problem}
+\begin{solution}
+  考虑所有可能给n个变量赋真值的分配构成的概率空间，每个分配都有相同的概率:$1/2^n$。
+  设$\Phi$中的每个子句为$C_i$
+
+  设$A_i$为事件$C_i$在随机分配下是满足的。
+
+  因为只有当所有文字都为假时$C_i$才不满足，所以$Pr(A_i) = 1 - 1/2^k$。
+
+  设B为事件$\Phi$在随机分配下是满足的。
+
+  $$Pr(B) = Pr(A_1 \cap A_2 \cap … \cap A_m)$$
+
+  由Union Bound可知：
+  $$Pr(B^c) \leq Pr(A_1^c \cup A_2^c \cup … \cup A_m^c) \leq Pr(A_1^c) + Pr(A_2^c) + … + Pr(A_m^c) = m/2^k < 1$$
+
+  所以，$Pr(B) > 0$
+
+  即，存在至少一个分配使得$\Phi$被满足。
+
+  因此，$\Phi$必定是可满足的。
+\end{solution}
+\begin{problem}
+[Satisfiability (II)] Give a constructive proof of the same problem above. That is, prove that $\Phi$
+is satisfiable by showing how to construct a truth assignment $\displaystyle{ x=(x_1,\cdots, x_n)\in \{\mathtt{true},\mathtt{false}\}^n }$
+such that $\displaystyle{ \Phi(x)=\mathtt{true} }$
+. Your construction does NOT have to be efficient. Please explain the difference between this constructive proof and the proof by the probabilistic method.
+\end{problem}
+\begin{solution}
+  构造：
+
+  $$\Phi = C_1$$
+  $$C_1 = \bar{x} \vee x$$
+
+  概率证明法只证明了这样可能性的存在，构造证明法实际上给出了这样的事例。
+\end{solution}
+\begin{problem}
+[Satisfiability (III)] Let $\Phi$
+be a $k$
+-CNF with $\displaystyle{ m\geq 2^k }$
+clauses. Use the probabilistic method to show that there exists a truth assignment $\displaystyle{ x=(x_1,\cdots, x_n)\in \{\mathtt{true},\mathtt{false}\}^n }$
+satisfying at least $\displaystyle{ \lfloor m(1-1/2^k) \rfloor }$
+clauses in $\Phi$
+. (Hint: Consider overlaps of events in Venn diagram.) You should be explicit about the probability space that is used.
+\end{problem}
+\begin{solution}
+  定义随机变量$X$，表示$\Phi$中为真的子句的个数。
+
+  %我们的目标是证明$E[X]\geq \lfloor m(1-1/2^k) \rfloor$，从而说明存在一个赋值使得$X\geq \lfloor m(1-1/2^k) \rfloor$。
+
+  %为了计算$E[X]$，我们可以利用线性期望的性质，把它分解成每个子句为真的概率之和。也就是说， 
+  $$ E[X]=\sum_{i=1}^m E[Y_i] $$
+
+  (其中$Y_i$是一个指示随机变量，如果第$i$个子句是否为真$Y_i=1$；否则，$Y_i=0$)
+
+  不妨设每个变量被赋值真或假的概率都是$\frac{1}{2}$，那么对于任意一个由$k$个文字组成的子句（不妨记为$C=a_1\vee a_2\vee \cdots \vee a_k$），$C$为假的概率为
+  $$ P(a_1\vee a_2\vee \cdots \vee a_k=\mathtt{false})=P(a_1=\mathtt{false})P(a_2=\mathtt{false})\cdots P(a_k=\mathtt{false}) $$
+  由于每个文字有$\frac{1}{2}$的概率与其对应的变量相反（例如$a=x$, $a’=\neg x$, $P(a’=\mathtt{false})=P(x=\mathtt{true})=\frac{1}{2}$），所以上式等于$\frac{1}{2^k}$。因此， $$ P(a_1\vee a_2\vee \cdots \vee a_k=\mathtt{true})=1-P(a_1\vee a_2\vee \cdots \vee a_k=\mathtt{false})=1-\frac{1}{2^k} $$
+  也就是说对于任意子句$i$, $E[Y_i]=P(Y_i=1)=P(\text{$i^{th}$ clause is true})= 1-\frac{1}{2^k}$。
+
+  可得期望和：
+  $$ E[X]=\sum_{i=1}^m E[Y_i]=m( 1-\frac{1}{2^k}) $$
+
+  又因为$m\geq 2^k$, 所以$m( 1-\frac{1}{2^k})>\lfloor m( 1-\frac{1}{2^k}) \rfloor$.
+
+  所以， $$ E[X]> \lfloor m( 1-\frac{1}{2^k}) \rfloor $$
+
+  根据Markov’s inequality，存在一种赋值使得 $$ X> \lfloor m( 0.5-0.5/3) \rfloor = (m-3)/4 $$
+
+  即，存在一个赋值使得$\Phi$ 中至少有$\lfloor m(0.5-0.5/3) \rfloor$ 个子句为真
+\end{solution}
+
+[致谢]
+一起讨论的陈子元和徐研同学；知乎\& csdn \& wolfram \& 课本《概率导论》
+\end{document}
