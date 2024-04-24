@@ -10,6 +10,6 @@
 
 [Probability Theory and Mathematical Statistics, Spring 2023, Nanjing University](https://tcs.nju.edu.cn/wiki/index.php?title=概率论与数理统计_(Spring_2023))
 
-This course on Probability Theory is taught by Professor Yitong Yin, and the Mathematical Statistics section is taught by Professor Jingcheng Liu.
+This course on Probability Theory is taught by Professor [Yitong Yin](http://tcs.nju.edu.cn/yinyt/), and the Mathematical Statistics section is taught by Professor [Jingcheng Liu](https://liuexp.github.io).
 
 This repository serves as a personal archive for homework assignments.
